@@ -6,20 +6,20 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, project }) {
+export default function Create({ auth, user }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
-    name: project.name || "",
-    status: project.status || "",
-    description: project.description || "",
-    due_date: project.due_date || "",
+    name: user.name || "",
+    status: user.status || "",
+    description: user.description || "",
+    due_date: user.due_date || "",
     _method: "PUT",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("project.update", project.id));
+    post(route("user.update", user.id));
   };
   return (
     <AuthenticatedLayout
@@ -27,12 +27,12 @@ export default function Create({ auth, project }) {
       header={
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            Edit Projects "{project.name}"
+            Edit Users "{user.name}"
           </h2>
         </div>
       }
     >
-      <Head title="Projects" />
+      <Head title="Users" />
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -41,18 +41,15 @@ export default function Create({ auth, project }) {
                 onSubmit={onSubmit}
                 className="p-4 bg-white shadow sm:rounded-lg sm:p-8 dark:bg-gray-800"
               >
-                {project.image_path && (
+                {user.image_path && (
                   <div className="mb-4">
-                    <img src={project.image_path} className="w-64" />
+                    <img src={user.image_path} className="w-64" />
                   </div>
                 )}
                 <div>
-                  <InputLabel
-                    htmlFor="project_image_path"
-                    value="Project Image"
-                  />
+                  <InputLabel htmlFor="user_image_path" value="User Image" />
                   <TextInput
-                    id="project_image_path"
+                    id="user_image_path"
                     type="file"
                     name="image"
                     className="block w-full mt-1"
@@ -61,9 +58,9 @@ export default function Create({ auth, project }) {
                   <InputError message={errors.image} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                  <InputLabel htmlFor="project_name" value="Project Name" />
+                  <InputLabel htmlFor="user_name" value="User Name" />
                   <TextInput
-                    id="project_name"
+                    id="user_name"
                     type="text"
                     name="name"
                     value={data.name}
@@ -75,11 +72,11 @@ export default function Create({ auth, project }) {
                 </div>
                 <div className="mt-4">
                   <InputLabel
-                    htmlFor="project_description"
-                    value="Project Description"
+                    htmlFor="user_description"
+                    value="User Description"
                   />
                   <TextAreaInput
-                    id="project_description"
+                    id="user_description"
                     name="description"
                     value={data.description}
                     className="block w-full mt-1"
@@ -88,12 +85,9 @@ export default function Create({ auth, project }) {
                   <InputError message={errors.description} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                  <InputLabel
-                    htmlFor="project_due_date"
-                    value="Project Deadline"
-                  />
+                  <InputLabel htmlFor="user_due_date" value="User Deadline" />
                   <TextInput
-                    id="project_due_date"
+                    id="user_due_date"
                     type="date"
                     name="due_date"
                     value={data.due_date}
@@ -103,9 +97,9 @@ export default function Create({ auth, project }) {
                   <InputError message={errors.due_date} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                  <InputLabel htmlFor="project_status" value="Project Status" />
+                  <InputLabel htmlFor="user_status" value="User Status" />
                   <SelectInput
-                    id="project_status"
+                    id="user_status"
                     name="status"
                     className="block w-full mt-1"
                     onChange={(e) => setData("status", e.target.value)}
@@ -115,14 +109,11 @@ export default function Create({ auth, project }) {
                     <option value="in_progress">In Progress</option>
                     <option value="completed">Completed</option>
                   </SelectInput>
-                  <InputError
-                    message={errors.project_status}
-                    className="mt-2"
-                  />
+                  <InputError message={errors.user_status} className="mt-2" />
                 </div>
                 <div className="mt-4 text-right">
                   <Link
-                    href={route("project.index")}
+                    href={route("user.index")}
                     className="h-8 px-3 py-1 mr-2 text-sm text-gray-800 transition-all bg-gray-100 rounded shadow hover:bg-gray-200 "
                   >
                     Cancel

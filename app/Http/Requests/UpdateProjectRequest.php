@@ -23,7 +23,7 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['nullable', 'max:255'],
+            "name" => ['required', 'max:255'],
             "image"  => ['nullable', 'image'],
             "description" => ['nullable', 'string'],
             "due_date" => ['nullable', 'date'],
