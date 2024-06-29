@@ -9,7 +9,7 @@ import {
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-export default function index({ auth, projects, queryParams = null }) {
+export default function index({ auth, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
     if (value) {
@@ -40,6 +40,14 @@ export default function index({ auth, projects, queryParams = null }) {
     }
     router.get(route("project.index"), queryParams);
   };
+
+  const deleteProject = (project) => {
+    if (!window.confirm("Are you sure delete the Project ?")) {
+      return;
+    }
+    router.delete(route("project.destroy", project.id));
+  };
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -60,6 +68,11 @@ export default function index({ auth, projects, queryParams = null }) {
       <Head title="Projects" />
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          {success && (
+            <div className="px-4 py-2 mb-4 text-white rounded bg-emerald-500">
+              {success}
+            </div>
+          )}
           <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               {/* <pre>{JSON.stringify(projects, undefined, 2)}</pre> */}
@@ -185,7 +198,7 @@ export default function index({ auth, projects, queryParams = null }) {
                           {project.due_date}
                         </td>
                         <td className="px-3 py-3">{project.createdBy.name}</td>
-                        <td className="px-3 py-3">
+                        <td className="px-3 py-3 text-nowrap">
                           <Link
                             href={route("project.edit", project.id)}
                             className="mx-1 font-medium text-blue-500 dark:text-blue-500 hover:underline"
@@ -193,7 +206,7 @@ export default function index({ auth, projects, queryParams = null }) {
                             Edit
                           </Link>
                           <Link
-                            href={route("project.destroy", project.id)}
+                            onClick={(e) => deleteProject(project)}
                             className="mx-1 font-medium text-red-500 dark:text-red-500 hover:underline"
                           >
                             Delete
