@@ -4,8 +4,10 @@ import {
   PROJECT_STATUS_CLASS_MAP,
   PROJECT_STATUS_TEXT_MAP,
 } from "@/constants.jsx";
+import TaskTable from "../Task/TaskTable";
 
-export default function Show({ auth, project }) {
+export default function Show({ auth, project, tasks, queryParams = null }) {
+  queryParams = queryParams || {};
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -19,14 +21,14 @@ export default function Show({ auth, project }) {
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+            <div>
+              <img
+                src={project.image_path}
+                alt=""
+                className="object-cover w-full h-64"
+              />
+            </div>
             <div className="p-6 text-gray-900 dark:text-gray-100">
-              <div>
-                <img
-                  src={project.image_path}
-                  alt=""
-                  className="object-cover w-full h-64"
-                />
-              </div>
               <div className="grid grid-cols-2 gap-1 mt-2">
                 <div>
                   <div>
@@ -70,13 +72,25 @@ export default function Show({ auth, project }) {
                     <p className="mt-1">{project.updatedBy.name}</p>
                   </div>
                 </div>
-                <div className="mt-4">
-                  <label className="text-lg font-bold">
-                    Project Description
-                  </label>
-                  <p className="mt-1">{project.description}</p>
-                </div>
               </div>
+              <div className="mt-4">
+                <label className="text-lg font-bold">Project Description</label>
+                <p className="mt-1">{project.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pb-12">
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+            <div className="p-6 text-gray-900 dark:text-gray-100">
+              <TaskTable
+                tasks={tasks}
+                queryParams={queryParams}
+                hideProjectColumn={true}
+              />
             </div>
           </div>
         </div>

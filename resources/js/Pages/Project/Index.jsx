@@ -44,9 +44,17 @@ export default function index({ auth, projects, queryParams = null }) {
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Projects
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            Projects
+          </h2>
+          <Link
+            href={route("project.create")}
+            className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
+          >
+            Add New Project
+          </Link>
+        </div>
       }
     >
       <Head title="Projects" />
